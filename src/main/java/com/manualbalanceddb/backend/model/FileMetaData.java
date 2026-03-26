@@ -19,6 +19,7 @@ public class FileMetaData {
 
     private String type;
 
+    @Lob
     private String url;
 
     private String tags;
