@@ -12,25 +12,19 @@ public class FileMetaData {
     private Long id;
 
     private String name;
-
-    private String filename;
-
+    private String objectKey;
     private long size;
-
     private String type;
-
     @Lob
     private String url;
-
     private String tags;
-
     private LocalDateTime uploadDate;
 
     public FileMetaData() {}
 
-    public FileMetaData(String name, String filename, long size, String type, String url, String tags, LocalDateTime uploadDate) {
+    public FileMetaData(String name, String objectKey, long size, String type, String url, String tags, LocalDateTime uploadDate) {
         this.name = name;
-        this.filename = filename;
+        this.objectKey = objectKey;
         this.size = size;
         this.type = type;
         this.url = url;
@@ -46,8 +40,8 @@ public class FileMetaData {
         return name;
     }
 
-    public String getFilename() {
-        return filename;
+    public String getobjectKey() {
+        return objectKey;
     }
 
     public long getSize() {
@@ -74,8 +68,8 @@ public class FileMetaData {
         this.name = name;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setobjectKey(String objectKey) {
+        this.objectKey = objectKey;
     }
 
     public void setSize(long size) {

@@ -32,6 +32,10 @@ public class FileController {
                 @RequestParam(required = false) String tags
         ) throws Exception {
 
+            if(file.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File is empty");
+            }
+
             String objectKey = minioService.uploadFile(file, tags);
             String url = minioService.getFileUrl(objectKey);
 
@@ -52,7 +56,7 @@ public class FileController {
     public List<FileMetaData> getFiles() {
         return fileRepository.findAll();
     }
-
+    
     @DeleteMapping("/{id}")
     public void deleteFile(@PathVariable Long id) {
 
@@ -60,7 +64,7 @@ public class FileController {
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found"));
 
         try {
-            minioService.deleteFile(file.getFilename());
+            minioService.deleteFile(file.getobjectKey());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "MinIO delete failed");
         }
