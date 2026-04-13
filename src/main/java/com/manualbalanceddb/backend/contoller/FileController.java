@@ -64,7 +64,7 @@ public class FileController {
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found"));
 
         try {
-            minioService.deleteFile(file.getobjectKey());
+            minioService.deleteFile(file.getObjectKey());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "MinIO delete failed");
         }

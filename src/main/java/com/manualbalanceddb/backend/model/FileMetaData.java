@@ -40,7 +40,7 @@ public class FileMetaData {
         return name;
     }
 
-    public String getobjectKey() {
+    public String getObjectKey() {
         return objectKey;
     }
 
@@ -68,7 +68,7 @@ public class FileMetaData {
         this.name = name;
     }
 
-    public void setobjectKey(String objectKey) {
+    public void setObjectKey(String objectKey) {
         this.objectKey = objectKey;
     }
 
