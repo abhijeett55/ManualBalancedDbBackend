@@ -46,7 +46,7 @@ public class MinioService {
         metadata.put("type", file.getContentType());
         metadata.put("tags", tags != null ? tags : "");
         metadata.put("size", String.valueOf(file.getSize()));
-        metadata.put("uploadedat", String.valueOf(System.currentTimeMillis()));
+        metadata.put("uploaddate", String.valueOf(System.currentTimeMillis()));
 
         minioClient.putObject(
                 PutObjectArgs.builder()
