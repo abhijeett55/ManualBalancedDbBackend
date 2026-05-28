@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
+
 
 @Service
 public class MinioService {
@@ -37,9 +37,9 @@ public class MinioService {
         }
     }
 
-    public String uploadFile(MultipartFile file, String tags) throws Exception {
+    public String uploadFile(MultipartFile file, String tags, String userId) throws Exception {
 
-        String fileName = UUID.randomUUID() + "-" + file.getOriginalFilename();
+        String fileName = userId + "/" + file.getOriginalFilename();
 
         Map<String, String> metadata = new HashMap<>();
         metadata.put("name", file.getOriginalFilename());

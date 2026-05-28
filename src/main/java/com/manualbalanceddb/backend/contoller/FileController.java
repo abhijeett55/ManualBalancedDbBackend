@@ -4,6 +4,7 @@ import com.manualbalanceddb.backend.model.FileMetaData;
 import com.manualbalanceddb.backend.repository.FileRepository;
 import com.manualbalanceddb.backend.service.MinioService;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,24 +30,33 @@ public class FileController {
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
     public FileMetaData uploadFile(
                 @RequestParam("file") MultipartFile file,
-                @RequestParam(required = false) String tags
+                
+                @RequestParam(required = false) String tags,
+                @RequestHeader("Authorization") String userId
         ) throws Exception {
 
             if(file.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File is empty");
             }
 
-            String objectKey = minioService.uploadFile(file, tags);
+            String objectKey = minioService.uploadFile(file, tags, userId);
             String url = minioService.getFileUrl(objectKey);
+            
+
+            
+
+
 
             FileMetaData meta = new FileMetaData(
+                    
                     file.getOriginalFilename(),
                     objectKey,
                     file.getSize(),
                     file.getContentType(),
                     url,
                     tags,
-                    LocalDateTime.now()
+                    LocalDateTime.now(),
+                    userId
             );
 
             return fileRepository.save(meta);
@@ -55,6 +65,14 @@ public class FileController {
     @GetMapping
     public List<FileMetaData> getFiles() {
         return fileRepository.findAll();
+    }
+
+    @GetMapping("/{userId}")
+    public List<FileMetaData> getFiles(
+            @PathVariable String userId
+    ) {
+
+        return fileRepository.findByUserId(userId);
     }
     
     @DeleteMapping("/{id}")

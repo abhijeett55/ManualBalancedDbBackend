@@ -10,7 +10,7 @@ public class FileMetaData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String userId;
     private String name;
     private String objectKey;
     private long size;
@@ -19,10 +19,11 @@ public class FileMetaData {
     private String url;
     private String tags;
     private LocalDateTime uploadDate;
+    
 
     public FileMetaData() {}
 
-    public FileMetaData(String name, String objectKey, long size, String type, String url, String tags, LocalDateTime uploadDate) {
+    public FileMetaData(String name, String objectKey, long size, String type, String url, String tags, LocalDateTime uploadDate, String userId) {
         this.name = name;
         this.objectKey = objectKey;
         this.size = size;
@@ -30,6 +31,7 @@ public class FileMetaData {
         this.url = url;
         this.tags = tags;
         this.uploadDate = uploadDate;
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -64,6 +66,10 @@ public class FileMetaData {
         return uploadDate;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -91,4 +97,8 @@ public class FileMetaData {
     public void setUploadDate(LocalDateTime uploadDate) {
         this.uploadDate = uploadDate;
     }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    } 
 }
