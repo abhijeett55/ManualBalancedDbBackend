@@ -32,7 +32,7 @@ public class FileController {
                 @RequestParam("file") MultipartFile file,
                 
                 @RequestParam(required = false) String tags,
-                @RequestHeader("Authorization") String userId
+                @RequestParam String userId
         ) throws Exception {
 
             if(file.isEmpty()) {
