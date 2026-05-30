@@ -41,11 +41,6 @@ public class FileController {
 
             String objectKey = minioService.uploadFile(file, tags, userId);
             String url = minioService.getFileUrl(objectKey);
-            
-
-            
-
-
 
             FileMetaData meta = new FileMetaData(
                     
@@ -62,31 +57,41 @@ public class FileController {
             return fileRepository.save(meta);
         }
 
-    @GetMapping
-    public List<FileMetaData> getFiles() {
-        return fileRepository.findAll();
-    }
-
-    @GetMapping("/{userId}")
-    public List<FileMetaData> getFiles(
-            @PathVariable String userId
-    ) {
+    @GetMapping("/user/{userId}")
+    public List<FileMetaData> getFilesByUser(
+            @PathVariable String userId) {
 
         return fileRepository.findByUserId(userId);
     }
-    
-    @DeleteMapping("/{id}")
-    public void deleteFile(@PathVariable Long id) {
 
-        FileMetaData file = fileRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "File not found"));
+    @DeleteMapping("/{id}")
+    public void deleteFile(
+            @PathVariable Long id,
+            @RequestParam String userId) {
+
+        FileMetaData file =
+            fileRepository.findById(id)
+            .orElseThrow(() ->
+                new ResponseStatusException(
+                    HttpStatus.NOT_FOUND));
+
+        if (!file.getUserId().equals(userId)) {
+            throw new ResponseStatusException(
+                HttpStatus.FORBIDDEN,
+                "Access denied");
+        }
 
         try {
             minioService.deleteFile(file.getObjectKey());
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "MinIO delete failed");
+            throw new ResponseStatusException(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "Failed to delete file from MinIO"
+            );
         }
-
         fileRepository.delete(file);
     }
+
+
+    
 }
