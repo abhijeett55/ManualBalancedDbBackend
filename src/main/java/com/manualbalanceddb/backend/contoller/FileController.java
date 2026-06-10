@@ -51,7 +51,8 @@ public class FileController {
                     url,
                     tags,
                     LocalDateTime.now(),
-                    userId
+                    userId,
+                    "default"
             );
 
             return fileRepository.save(meta);
@@ -63,6 +64,50 @@ public class FileController {
 
         return fileRepository.findByUserId(userId);
     }
+
+    @PostMapping(value = "/upload-partition", consumes = "multipart/form-data")
+    public FileMetaData uploadPartition(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(required = false) String tags,
+            @RequestParam String userId,
+            @RequestParam String partition
+    ) throws Exception {
+
+        if(file.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File is empty");
+        }
+
+        String objectKey = minioService.uploadPartition(file, tags, userId, partition);
+        String url = minioService.getFileUrl(objectKey);
+
+        FileMetaData meta = new FileMetaData(
+                file.getOriginalFilename(),
+                objectKey,
+                file.getSize(),
+                file.getContentType(),
+                url,
+                tags,
+                LocalDateTime.now(),
+                userId,
+                partition
+        );
+
+        return fileRepository.save(meta);
+    }
+
+    @GetMapping("/user/{userId}/partition/{partition}")
+    public List<FileMetaData> getFilesByPartition(
+            @PathVariable String userId,
+            @PathVariable String partition) {
+
+        return fileRepository.findByUserIdAndPartition(
+                userId,
+                partition);
+    }
+
+
+
+
 
     @DeleteMapping("/{id}")
     public void deleteFile(
@@ -90,6 +135,13 @@ public class FileController {
             );
         }
         fileRepository.delete(file);
+    }
+
+
+    @GetMapping("/storage/{userId}")
+    public Long getTotalStorageUsed(
+        @PathVariable String userId) {
+        return fileRepository.getStorageUsedByUser(userId);
     }
 
 

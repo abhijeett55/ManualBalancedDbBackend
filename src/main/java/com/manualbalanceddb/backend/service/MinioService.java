@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 
 @Service
@@ -60,6 +61,43 @@ public class MinioService {
 
         return fileName;
     }
+
+    public String uploadPartition(
+        MultipartFile file,
+        String tags,
+        String userId,
+        String partition) throws Exception {
+
+    String objectKey =
+            userId + "/" +
+            partition + "/" +
+            UUID.randomUUID() + "_" +
+            file.getOriginalFilename();
+
+    Map<String, String> metadata = new HashMap<>();
+    metadata.put("name", file.getOriginalFilename());
+    metadata.put("type", file.getContentType());
+    metadata.put("tags", tags != null ? tags : "");
+    metadata.put("partition", partition);
+    metadata.put("size", String.valueOf(file.getSize()));
+    metadata.put("uploaddate", String.valueOf(System.currentTimeMillis()));
+
+    minioClient.putObject(
+            PutObjectArgs.builder()
+                    .bucket(bucket)
+                    .object(objectKey)
+                    .stream(
+                            file.getInputStream(),
+                            file.getSize(),
+                            -1
+                    )
+                    .contentType(file.getContentType())
+                    .userMetadata(metadata)
+                    .build()
+    );
+
+    return objectKey;
+}
 
     public String getFileUrl(String objectKey) throws Exception {
         return minioClient.getPresignedObjectUrl(

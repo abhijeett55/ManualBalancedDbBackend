@@ -19,11 +19,12 @@ public class FileMetaData {
     private String url;
     private String tags;
     private LocalDateTime uploadDate;
+    private String partition;
     
 
     public FileMetaData() {}
 
-    public FileMetaData(String name, String objectKey, long size, String type, String url, String tags, LocalDateTime uploadDate, String userId) {
+    public FileMetaData(String name, String objectKey, long size, String type, String url, String tags, LocalDateTime uploadDate, String userId, String partition) {
         this.name = name;
         this.objectKey = objectKey;
         this.size = size;
@@ -32,6 +33,7 @@ public class FileMetaData {
         this.tags = tags;
         this.uploadDate = uploadDate;
         this.userId = userId;
+        this.partition = partition;
     }
 
     public Long getId() {
@@ -70,6 +72,10 @@ public class FileMetaData {
         return userId;
     }
 
+    public String getPartition() {
+        return partition;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -100,5 +106,9 @@ public class FileMetaData {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    } 
+    }
+
+    public void setPartition(String partition) {
+        this.partition = partition;
+    }
 }
