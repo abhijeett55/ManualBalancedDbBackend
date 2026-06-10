@@ -1,7 +1,9 @@
 package com.manualbalanceddb.backend.contoller;
 
 import com.manualbalanceddb.backend.model.FileMetaData;
+import com.manualbalanceddb.backend.model.Partition;
 import com.manualbalanceddb.backend.repository.FileRepository;
+import com.manualbalanceddb.backend.repository.PartitionRepository;
 import com.manualbalanceddb.backend.service.MinioService;
 
 
@@ -142,6 +144,25 @@ public class FileController {
     public Long getTotalStorageUsed(
         @PathVariable String userId) {
         return fileRepository.getStorageUsedByUser(userId);
+    }
+
+    @PostMapping
+    public Partition create(
+            @RequestBody Partition partition) {
+
+        return PartitionRepository.save(partition);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<Partition> getByUser(
+            @PathVariable String userId) {
+
+        return partitionRepository.findByUserId(userId);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        PartitionRepository.deleteById(id);
     }
 
 

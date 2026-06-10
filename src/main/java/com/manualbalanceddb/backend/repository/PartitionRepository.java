@@ -1,0 +1,14 @@
+package com.manualbalanceddb.backend.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.manualbalanceddb.backend.model.Partition;
+
+@Repository
+public interface PartitionRepository extends JpaRepository<Partition, Long> {
+
+    List<Partition> findByUserId(String userId);
+}
