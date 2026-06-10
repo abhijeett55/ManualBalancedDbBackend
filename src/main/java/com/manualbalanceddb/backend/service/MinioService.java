@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 
 @Service
@@ -71,7 +70,7 @@ public class MinioService {
     String objectKey =
             userId + "/" +
             partition + "/" +
-            UUID.randomUUID() + "_" +
+            // UUID.randomUUID() + "_" +
             file.getOriginalFilename();
 
     Map<String, String> metadata = new HashMap<>();
