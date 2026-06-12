@@ -9,6 +9,6 @@ import com.manualbalanceddb.backend.model.Partition;
 
 @Repository
 public interface PartitionRepository extends JpaRepository<Partition, Long> {
-
     List<Partition> findByUserId(String userId);
+    
 }

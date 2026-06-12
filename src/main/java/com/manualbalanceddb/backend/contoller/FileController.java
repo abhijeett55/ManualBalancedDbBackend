@@ -22,11 +22,13 @@ public class FileController {
 
     private final MinioService minioService;
     private final FileRepository fileRepository;
+    private final PartitionRepository partitionRepository;
 
     public FileController(MinioService minioService,
-        FileRepository fileRepository) {
+        FileRepository fileRepository, PartitionRepository partitionRepository) {
         this.minioService = minioService;
         this.fileRepository = fileRepository;
+        this.partitionRepository = partitionRepository;
     }
 
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
@@ -150,7 +152,7 @@ public class FileController {
     public Partition create(
             @RequestBody Partition partition) {
 
-        return PartitionRepository.save(partition);
+        return partitionRepository.save(partition);
     }
 
     @GetMapping("/user/{userId}")
@@ -162,9 +164,7 @@ public class FileController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        PartitionRepository.deleteById(id);
+        partitionRepository.deleteById(id);
     }
-
-
     
 }
