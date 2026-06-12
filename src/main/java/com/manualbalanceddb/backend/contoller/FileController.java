@@ -1,7 +1,5 @@
 package com.manualbalanceddb.backend.contoller;
-
 import com.manualbalanceddb.backend.model.FileMetaData;
-import com.manualbalanceddb.backend.model.Partition;
 import com.manualbalanceddb.backend.repository.FileRepository;
 import com.manualbalanceddb.backend.repository.PartitionRepository;
 import com.manualbalanceddb.backend.service.MinioService;
@@ -22,13 +20,12 @@ public class FileController {
 
     private final MinioService minioService;
     private final FileRepository fileRepository;
-    private final PartitionRepository partitionRepository;
 
     public FileController(MinioService minioService,
-        FileRepository fileRepository, PartitionRepository partitionRepository) {
+        FileRepository fileRepository) {
         this.minioService = minioService;
         this.fileRepository = fileRepository;
-        this.partitionRepository = partitionRepository;
+        
     }
 
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
@@ -109,10 +106,6 @@ public class FileController {
                 partition);
     }
 
-
-
-
-
     @DeleteMapping("/{id}")
     public void deleteFile(
             @PathVariable Long id,
@@ -148,23 +141,7 @@ public class FileController {
         return fileRepository.getStorageUsedByUser(userId);
     }
 
-    @PostMapping
-    public Partition create(
-            @RequestBody Partition partition) {
+    
 
-        return partitionRepository.save(partition);
-    }
-
-    @GetMapping("/user/{userId}")
-    public List<Partition> getByUser(
-            @PathVariable String userId) {
-
-        return partitionRepository.findByUserId(userId);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        partitionRepository.deleteById(id);
-    }
     
 }

@@ -18,7 +18,6 @@ public class Partition {
     private String name;
     private String icon;
     private String status;
-
     public Partition() { }
 
     public Partition(String userId, String name,String icon, String status) {
@@ -26,6 +25,10 @@ public class Partition {
         this.name = name;
         this.icon = icon;
         this.status = status;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getUserId() {
@@ -40,9 +43,10 @@ public class Partition {
         return icon;
     }
 
-    public String status() {
+    public String getStatus() {
         return status;
     }
+
 
     public void setUserId(String userId) {
         this.userId = userId;
@@ -59,6 +63,8 @@ public class Partition {
     public void setStatus(String status) {
         this.status = status;
     }
+
+
 
 
 }
