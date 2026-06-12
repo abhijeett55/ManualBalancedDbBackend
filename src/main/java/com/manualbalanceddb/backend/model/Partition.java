@@ -17,12 +17,11 @@ public class Partition {
     private String userId;
     private String name;
     private String icon;
-
     private String status;
 
     public Partition() { }
 
-    public Partition(String UserId, String name,String icon, String status) {
+    public Partition(String userId, String name,String icon, String status) {
         this.userId = userId;
         this.name = name;
         this.icon = icon;
