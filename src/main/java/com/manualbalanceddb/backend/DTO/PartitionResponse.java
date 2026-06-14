@@ -14,13 +14,5 @@ public class PartitionResponse {
     private Long usedSpace;
     private Long fileCount;
     private Double percentage;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    
 }

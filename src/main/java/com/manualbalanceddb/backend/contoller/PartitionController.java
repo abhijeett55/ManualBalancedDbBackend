@@ -48,10 +48,18 @@ public class PartitionController {
                         used = 0L;
                     }
 
-                    Long count =
+                    long count =
                             fileRepository.countByUserIdAndPartition(
                                     userId,
                                     partition.getName());
+
+                    if(count == null) {
+                        count = 0l;
+                    }
+
+                    long totalSpace = 5L * 1024 * 1024 * 1024;
+
+                    double percentage = (used * 100.0) / totalSpace;
 
                     PartitionResponse dto =
                             new PartitionResponse();
@@ -63,6 +71,7 @@ public class PartitionController {
 
                     dto.setUsedSpace(used);
                     dto.setFileCount(count);
+                    dto.setPercentage(Math.min(percentage, 100));
 
                     return dto;
                 })
@@ -71,8 +80,18 @@ public class PartitionController {
 
     @DeleteMapping("/{id}")
     public void delete(
-            @PathVariable Long id) {
+            @PathVariable Long id,
+            @RequestParam String userId) {
 
-        partitionRepository.deleteById(id);
+        Partition partition =
+                partitionRepository.findById(id)
+                .orElseThrow();
+
+        if (!partition.getUserId().equals(userId)) {
+            throw new RuntimeException(
+                    "Access denied");
+        }
+
+        partitionRepository.delete(partition);
     }
 }
