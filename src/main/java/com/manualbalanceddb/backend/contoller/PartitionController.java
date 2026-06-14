@@ -1,20 +1,10 @@
 package com.manualbalanceddb.backend.contoller;
 
-
 import com.manualbalanceddb.backend.DTO.PartitionResponse;
-import com.manualbalanceddb.backend.model.FileMetaData;
 import com.manualbalanceddb.backend.model.Partition;
 import com.manualbalanceddb.backend.repository.FileRepository;
 import com.manualbalanceddb.backend.repository.PartitionRepository;
-import com.manualbalanceddb.backend.service.MinioService;
-
-
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
