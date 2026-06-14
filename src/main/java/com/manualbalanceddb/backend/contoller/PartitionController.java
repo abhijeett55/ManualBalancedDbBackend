@@ -53,10 +53,6 @@ public class PartitionController {
                                     userId,
                                     partition.getName());
 
-                    if(count == null) {
-                        count = 0l;
-                    }
-
                     long totalSpace = 5L * 1024 * 1024 * 1024;
 
                     double percentage = (used * 100.0) / totalSpace;
