@@ -1,7 +1,6 @@
 package com.manualbalanceddb.backend.contoller;
 import com.manualbalanceddb.backend.model.FileMetaData;
 import com.manualbalanceddb.backend.repository.FileRepository;
-import com.manualbalanceddb.backend.repository.PartitionRepository;
 import com.manualbalanceddb.backend.service.MinioService;
 
 
