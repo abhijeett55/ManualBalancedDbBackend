@@ -15,7 +15,8 @@ public class FileMetaData {
     private String objectKey;
     private long size;
     private String type;
-    @Lob
+    
+    @Column(columnDefinition = "TEXT")
     private String url;
     private String tags;
     private LocalDateTime uploadDate;
